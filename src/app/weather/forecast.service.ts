@@ -1,6 +1,7 @@
-import { HttpParams } from "@angular/common/http"
+import { HttpClient, HttpParams } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import { map, Observable } from "rxjs"
+import { Observable, of } from "rxjs"
+import { map, switchMap, share, mergeMap, filter, toArray } from "rxjs/operators"
 
 interface Coordinates {
   latitude: number
@@ -12,11 +13,22 @@ interface Coordinates {
   speed?: number | null
 }
 
+interface OpenWeatherResponse {
+  list: {
+    dt_txt: string
+    main: {
+      temp: number
+    }
+  }[]
+}
+
 @Injectable({
   providedIn: "root",
 })
 export class ForecastService {
-  constructor() {}
+  private url = "https://api.openweathermap.org/data/2.5/forecast"
+
+  constructor(private http: HttpClient) {}
 
   getForecast() {
     return this.getCurrentLocation().pipe(
@@ -26,7 +38,19 @@ export class ForecastService {
           .set("lon", String(coords.longitude))
           .set("units", "metric")
           .set("appid", "56aa1410c336611a2bf0e537ffffd428")
-      })
+      }),
+      switchMap((params) => this.http.get<OpenWeatherResponse>(this.url, { params })),
+      map((resp) => resp.list),
+      mergeMap((value) => of(...value)),
+      filter((_, index) => index % 8 === 0),
+      map((value) => {
+        return {
+          dateString: value.dt_txt,
+          temp: value.main.temp,
+        }
+      }),
+      toArray(),
+      share()
     )
   }
 
