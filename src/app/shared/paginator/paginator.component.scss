@@ -8,7 +8,7 @@
   .page-item {
     margin: 0 5px;
 
-    a {
+    .page-link {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -17,21 +17,25 @@
       font-size: 16px;
       font-weight: bold;
       text-decoration: none;
-      color: #007bff;
-      border: 1px solid #007bff;
+      border: 1px solid $border-color;
       border-radius: 50%;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s, color 0.2s, border 0.2s;
+      color: $font-color;
 
       &:hover {
-        background: #007bff;
-        color: white;
+        background: $primary-color;
+        color: $font-color;
+        border-color: $primary-color;
       }
     }
 
-    &.active a {
-      background: #007bff;
-      color: white;
+    &.active {
+      .page-link {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: $font-color;
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
-<h3>{{ currentCategory === 'general' ? 'World News' : 'Tech News' }}</h3>
-<ul class="nav nav-pills" id="myTab" role="tablist">
+<h2 class="title">
+  {{ currentCategory === 'general' ? 'World News' : 'Tech News' }}
+</h2>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item" role="presentation">
     <button
       class="nav-link"
@@ -7,7 +9,7 @@
       (click)="switchToWorldNews()"
       role="tab"
     >
-      Switch to World News
+      World News
     </button>
   </li>
   <li class="nav-item" role="presentation">
@@ -17,7 +19,7 @@
       (click)="switchToTechNews()"
       role="tab"
     >
-      Switch to Tech News
+      Tech News
     </button>
   </li>
 </ul>
@@ -29,7 +31,9 @@
     target="_blank"
     [ngClass]="{'disabled': article.url === '#'}"
   >
-    <p class="mb-0 text-truncate dynamic-truncate">{{ article.title | trimOutletName: article.source.name }}</p>
+    <p class="mb-0 pe-2 text-truncate dynamic-truncate fst-italic">
+      {{ article.title | trimOutletName: article.source.name }}
+    </p>
   </a>
 </div>
 <app-paginator [numberOfPages]="totalNumberOfPages" (pageChange)="fetchArticles($event, currentCategory)" />

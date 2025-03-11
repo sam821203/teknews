@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 592px;
   padding: 10px;
 
   .list-group-item {
@@ -10,21 +11,57 @@
     padding: 12px 16px;
     border-radius: 8px;
     background-color: #ffffff;
-    border: 1px solid #ddd;
-    width: 1000px;
+    border: 1px solid $border-color;
+    max-width: 1000px;
+    width: 100%;
     transition: background-color 0.2s ease-in-out, transform 0.1s;
+    transform: scale(1);
 
     &:hover {
-      background-color: #f8f9fa;
+      background-color: $background-hover;
       transform: scale(1.02);
     }
 
     &.disabled {
-      color: #aaa;
+      color: $disabled-color;
       cursor: not-allowed;
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
+      background-color: $disabled-bg;
+      border: 1px solid darken($border-color, 10%);
     }
+  }
+}
+
+.title {
+  position: relative;
+  display: inline-block;
+  padding: 0 8px 8px;
+  margin-bottom: 32px;
+  font-family: "EB Garamond", serif;
+  font-size: 48px;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -4px;
+  bottom: 4px;
+  width: calc(100% + 8px);
+  height: 24px;
+  background-color: $primary-color;
+  transform: skewX(-20deg);
+  transform-origin: bottom right;
+}
+
+.nav-link {
+  font-size: 18px;
+  color: black;
+
+  &.active {
+    font-weight: bold;
   }
 }
 
