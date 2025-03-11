@@ -1,7 +1,5 @@
-require("dotenv").config()
-
 const fs = require("fs")
-const path = "./src/environments"
+const apiKey = process.env.API_KEY || ""
 
 if (!fs.existsSync(path)) {
   fs.mkdirSync(path, { recursive: true })
@@ -9,7 +7,7 @@ if (!fs.existsSync(path)) {
 
 const envConfig = `export const environment = {
   production: true,
-  apiKey: "${process.env.API_KEY}",
+   apiKey: "${apiKey}"
 };`
 
 fs.writeFileSync("./src/environments/environment.prod.ts", envConfig)
