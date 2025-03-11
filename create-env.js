@@ -1,5 +1,6 @@
 const fs = require("fs")
 const apiKey = process.env.API_KEY || ""
+const path = "./src/environments"
 
 if (!fs.existsSync(path)) {
   fs.mkdirSync(path, { recursive: true })
