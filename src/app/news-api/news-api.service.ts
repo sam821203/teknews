@@ -2,6 +2,7 @@ import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, BehaviorSubject, Subject } from "rxjs"
 import { map, switchMap, tap } from "rxjs/operators"
+import { environment } from "../../environments/environment"
 
 export interface Article {
   url: string
@@ -22,7 +23,7 @@ interface NewsApiResponse {
 export class NewsApiService {
   private url = "https://newsapi.org/v2/top-headlines"
   private pageSize = 10
-  private apiKey = "09e2feef919947ada53a78fa96a16231"
+  private apiKey = environment.apiKey
   private country = "us"
 
   private pagesInput: BehaviorSubject<number>
