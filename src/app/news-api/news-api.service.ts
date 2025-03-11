@@ -2,7 +2,7 @@ import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, BehaviorSubject, Subject, of } from "rxjs"
 import { catchError, delay, map, retry, switchMap, tap } from "rxjs/operators"
-import { environment } from "../../environments/environment"
+import { environment } from "../../environments/environment.prod"
 
 export interface Article {
   url: string
