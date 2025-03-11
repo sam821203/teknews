@@ -6,6 +6,7 @@ import { EMPTY, Observable } from "rxjs"
 interface ForecastData {
   dateString: string
   temp: number
+  icon: string
 }
 
 @Component({

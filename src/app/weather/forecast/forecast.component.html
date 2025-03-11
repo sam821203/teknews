@@ -2,5 +2,10 @@
   <li *ngFor="let forecast of forecast$ | async" class="weather-item list-group-item">
     <p class="temp">{{ forecast.temp | number: '1.0-0' }}°C</p>
     <p class="day">{{ forecast.dateString | date: 'E' }}</p>
+    <img
+      [src]="'https://openweathermap.org/img/wn/' + forecast.icon + '@2x.png'"
+      alt="Weather icon"
+      class="weather-icon"
+    />
   </li>
 </ul>

@@ -20,6 +20,7 @@ interface OpenWeatherResponse {
     main: {
       temp: number
     }
+    weather: { icon: string }[]
   }[]
 }
 
@@ -45,9 +46,11 @@ export class ForecastService {
       mergeMap((value) => of(...value)),
       filter((_, index) => index % 8 === 0),
       map((value) => {
+        console.log("Forecast data", value)
         return {
           dateString: value.dt_txt,
           temp: value.main.temp,
+          icon: value.weather[0].icon,
         }
       }),
       toArray(),
@@ -57,7 +60,7 @@ export class ForecastService {
 
   getCurrentLocation() {
     return new Observable<Coordinates>((observer) => {
-      console.log('Getting location...');
+      console.log("Getting location...")
       window.navigator.geolocation.getCurrentPosition(
         (position) => {
           observer.next(position.coords)
