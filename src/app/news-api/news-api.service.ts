@@ -1,7 +1,7 @@
 import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import { Observable, BehaviorSubject, Subject } from "rxjs"
-import { map, switchMap, tap } from "rxjs/operators"
+import { Observable, BehaviorSubject, Subject, of } from "rxjs"
+import { catchError, delay, map, retry, switchMap, tap } from "rxjs/operators"
 import { environment } from "../../environments/environment"
 
 export interface Article {
@@ -46,7 +46,21 @@ export class NewsApiService {
           .set("pageSize", this.pageSize.toString())
           .set("page", page.toString())
 
-        return this.http.get<NewsApiResponse>(this.url, { params })
+        return this.http.get<NewsApiResponse>(this.url, { params }).pipe(
+          retry({
+            count: 5,
+            delay: (error, index) => {
+              if (error.status === 429) {
+                return of(error).pipe(delay(1000 * Math.pow(2, index)))
+              }
+              return of(error)
+            },
+          }),
+          catchError((error) => {
+            console.error("API request failed:", error)
+            return of({ totalResults: 0, articles: [] } as NewsApiResponse)
+          })
+        )
       }),
       tap((resp) => {
         const totalPages = Math.ceil(resp.totalResults / this.pageSize)
