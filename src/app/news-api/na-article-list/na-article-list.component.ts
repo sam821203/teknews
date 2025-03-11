@@ -11,6 +11,7 @@ export class NaArticleListComponent {
   articles: Article[] = []
   totalNumberOfPages = 1
   currentPage = 1
+  currentCategory: "general" | "technology" = "general"
 
   constructor(private newsApiService: NewsApiService) {
     // 監聽新聞列表更新
@@ -23,11 +24,23 @@ export class NaArticleListComponent {
       this.totalNumberOfPages = totalPages
     })
 
-    this.fetchArticles(1)
+    this.fetchArticles(1, "general")
   }
 
-  fetchArticles(page: number) {
+  fetchArticles(page: number, category: "general" | "technology") {
     this.currentPage = page
+    this.currentCategory = category
+    this.newsApiService.setCategory(category)
     this.newsApiService.getPage(page)
+  }
+
+  // 切換至科技新聞
+  switchToTechNews() {
+    this.fetchArticles(1, "technology")
+  }
+
+  // 切換至世界新聞
+  switchToWorldNews() {
+    this.fetchArticles(1, "general")
   }
 }

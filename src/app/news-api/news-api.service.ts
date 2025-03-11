@@ -27,22 +27,25 @@ export class NewsApiService {
   private country = "us"
 
   private pagesInput: BehaviorSubject<number>
+  private categoryInput: BehaviorSubject<string>
   pagesOutput: Observable<Article[]>
   numberOfPages: Subject<number>
 
   constructor(private http: HttpClient) {
     this.numberOfPages = new Subject()
-
     this.pagesInput = new BehaviorSubject<number>(1)
+    this.categoryInput = new BehaviorSubject<string>("general")
+
     this.pagesOutput = this.pagesInput.pipe(
-      map((page) => {
-        return new HttpParams()
+      switchMap((page) => {
+        const category = this.categoryInput.getValue()
+        const params = new HttpParams()
           .set("apiKey", this.apiKey)
           .set("country", this.country)
+          .set("category", category)
           .set("pageSize", this.pageSize.toString())
           .set("page", page.toString())
-      }),
-      switchMap((params) => {
+
         return this.http.get<NewsApiResponse>(this.url, { params })
       }),
       tap((resp) => {
@@ -71,5 +74,9 @@ export class NewsApiService {
 
   getPage(page: number) {
     this.pagesInput.next(page)
+  }
+
+  setCategory(category: string) {
+    this.categoryInput.next(category)
   }
 }

@@ -11,6 +11,7 @@
     border-radius: 8px;
     background-color: #ffffff;
     border: 1px solid #ddd;
+    width: 1000px;
     transition: background-color 0.2s ease-in-out, transform 0.1s;
 
     &:hover {
@@ -24,5 +25,19 @@
       background-color: #f0f0f0;
       border: 1px solid #ccc;
     }
+  }
+}
+
+@media (max-width: 1000px) {
+  .list-group {
+    .list-group-item {
+      width: 100%;
+    }
+  }
+
+  .dynamic-truncate {
+    text-overflow: unset;
+    overflow: unset;
+    white-space: normal;
   }
 }
