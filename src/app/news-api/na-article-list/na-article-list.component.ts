@@ -9,13 +9,25 @@ import { Article, NewsApiService } from "../news-api.service"
 })
 export class NaArticleListComponent {
   articles: Article[] = []
-  totalNumberOfPages = 0
+  totalNumberOfPages = 1
+  currentPage = 1
 
   constructor(private newsApiService: NewsApiService) {
+    // 監聽新聞列表更新
     this.newsApiService.pagesOutput.subscribe((articles) => {
       this.articles = articles
     })
 
-    this.newsApiService.getPage(1)
+    // 監聽總頁數變化
+    this.newsApiService.numberOfPages.subscribe((totalPages) => {
+      this.totalNumberOfPages = totalPages
+    })
+
+    this.fetchArticles(1)
+  }
+
+  fetchArticles(page: number) {
+    this.currentPage = page
+    this.newsApiService.getPage(page)
   }
 }

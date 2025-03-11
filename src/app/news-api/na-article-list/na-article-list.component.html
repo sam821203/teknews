@@ -5,7 +5,8 @@
     class="list-group-item list-group-item-action"
     [href]="article.url"
     target="_blank"
+    [ngClass]="{'disabled': article.url === '#'}"
     >{{ article.title | trimOutletName: article.source.name }}</a
   >
 </div>
-<app-paginator [numberOfPages]="totalNumberOfPages" />
+<app-paginator [numberOfPages]="totalNumberOfPages" (pageChange)="fetchArticles($event)" />

@@ -1,6 +1,6 @@
 import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
-import { Observable, Subject } from "rxjs"
+import { Observable, BehaviorSubject, Subject } from "rxjs"
 import { map, switchMap, tap } from "rxjs/operators"
 
 export interface Article {
@@ -25,14 +25,14 @@ export class NewsApiService {
   private apiKey = "09e2feef919947ada53a78fa96a16231"
   private country = "us"
 
-  private pagesInput: Subject<number>
+  private pagesInput: BehaviorSubject<number>
   pagesOutput: Observable<Article[]>
   numberOfPages: Subject<number>
 
   constructor(private http: HttpClient) {
     this.numberOfPages = new Subject()
 
-    this.pagesInput = new Subject()
+    this.pagesInput = new BehaviorSubject<number>(1)
     this.pagesOutput = this.pagesInput.pipe(
       map((page) => {
         return new HttpParams()
@@ -48,7 +48,23 @@ export class NewsApiService {
         const totalPages = Math.ceil(resp.totalResults / this.pageSize)
         this.numberOfPages.next(totalPages)
       }),
-      map((resp) => resp.articles ?? [])
+      map((resp) => {
+        let articles = resp.articles ?? []
+        const totalPages = Math.ceil(resp.totalResults / this.pageSize)
+
+        // 只有當不是最後一頁時，才補足 empty 文章
+        if (this.pagesInput.getValue() < totalPages) {
+          while (articles.length < this.pageSize) {
+            articles.push({
+              url: "#",
+              title: "No Article Available",
+              source: { name: "N/A" },
+            })
+          }
+        }
+
+        return articles
+      })
     )
   }
 
