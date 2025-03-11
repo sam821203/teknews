@@ -20,6 +20,10 @@ export class PaginatorComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes["numberOfPages"] && changes["numberOfPages"].currentValue) {
       this.updatePageOptions()
+
+      // 當總頁數變更時，初始化回第一頁
+      this.currentPage = 1
+      this.pageChange.emit(this.currentPage)
     }
   }
 

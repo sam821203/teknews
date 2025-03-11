@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap.scss";
 
-$primary-color: #fff10c;
-$border-color: #ddd;
-$background-hover: #f8f9fa;
-$disabled-color: #aaa;
-$disabled-bg: #f0f0f0;
-$font-color: black;
+:root {
+  --primary-color: #fff10c;
+  --border-color: #ddd;
+  --background-hover: #f8f9fa;
+  --disabled-color: #aaa;
+  --disabled-bg: #f0f0f0;
+  --font-color: black;
+}

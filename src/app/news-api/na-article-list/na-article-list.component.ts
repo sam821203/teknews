@@ -28,19 +28,15 @@ export class NaArticleListComponent {
   }
 
   fetchArticles(page: number, category: "general" | "technology") {
-    this.currentPage = page
-    this.currentCategory = category
-    this.newsApiService.setCategory(category)
+    if (this.currentCategory !== category) {
+      this.currentPage = 1
+      this.currentCategory = category
+      this.newsApiService.setCategory(category)
+    }
     this.newsApiService.getPage(page)
   }
 
-  // 切換至科技新聞
-  switchToTechNews() {
-    this.fetchArticles(1, "technology")
-  }
-
-  // 切換至世界新聞
-  switchToWorldNews() {
-    this.fetchArticles(1, "general")
+  switchCategory(category: "general" | "technology") {
+    this.fetchArticles(1, category)
   }
 }

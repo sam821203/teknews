@@ -6,7 +6,7 @@
     <button
       class="nav-link"
       [ngClass]="{ 'active': currentCategory === 'general' }"
-      (click)="switchToWorldNews()"
+      (click)="switchCategory('general')"
       role="tab"
     >
       World News
@@ -16,7 +16,7 @@
     <button
       class="nav-link"
       [ngClass]="{ 'active': currentCategory === 'technology' }"
-      (click)="switchToTechNews()"
+      (click)="switchCategory('technology')"
       role="tab"
     >
       Tech News
