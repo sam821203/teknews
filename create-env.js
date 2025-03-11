@@ -8,7 +8,7 @@ if (!fs.existsSync(path)) {
 
 const envConfig = `export const environment = {
   production: true,
-   apiKey: "${apiKey}"
+  apiKey: "${process.env.API_KEY}"
 };`
 
 fs.writeFileSync("./src/environments/environment.prod.ts", envConfig)
