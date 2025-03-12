@@ -2,7 +2,7 @@ import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, BehaviorSubject, Subject, of } from "rxjs"
 import { catchError, delay, map, retry, switchMap, tap } from "rxjs/operators"
-import { environment } from "../../environments/environment.prod"
+import { environment } from "../../environments/environment.dev"
 
 export interface Article {
   url: string
@@ -23,7 +23,7 @@ interface NewsApiResponse {
 export class NewsApiService {
   private url = "https://newsapi.org/v2/top-headlines"
   private pageSize = 10
-  private apiKey = environment.apiKey
+  private apiKey = environment.API_KEY
   private country = "us"
 
   private pagesInput: BehaviorSubject<number>
