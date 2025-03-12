@@ -8,12 +8,12 @@ const envFile = `export const environment = {
     API_KEY: '${process.env.API_KEY}',
 };
 `
-const targetPath = path.join(__dirname, "./src/environments/environment.dev.ts")
+const targetPath = path.join(__dirname, "./src/environments/environment.prod.ts")
 fs.writeFile(targetPath, envFile, (err) => {
   if (err) {
     console.error(err)
     throw err
   } else {
-    console.log(successColor, `${checkSign} Successfully generated environment.dev.ts`)
+    console.log(successColor, `${checkSign} Successfully generated environment.prod.ts`)
   }
 })
