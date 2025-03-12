@@ -4,12 +4,12 @@ const axios = require("axios")
 module.exports = async (req, res) => {
   try {
     // 從請求中提取參數
-    const { country, category, pageSize, page } = req.query
+    const { country, category, pageSize, page, apiKey } = req.query
 
     // 呼叫外部 API
     const response = await axios.get("https://newsapi.org/v2/top-headlines", {
       params: {
-        apiKey: process.env.API_KEY,
+        apiKey,
         country,
         category,
         pageSize,

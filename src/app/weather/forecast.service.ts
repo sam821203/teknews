@@ -46,7 +46,6 @@ export class ForecastService {
       mergeMap((value) => of(...value)),
       filter((_, index) => index % 8 === 0),
       map((value) => {
-        console.log("Forecast data", value)
         return {
           dateString: value.dt_txt,
           temp: value.main.temp,

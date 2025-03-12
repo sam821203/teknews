@@ -40,6 +40,7 @@ export class NewsApiService {
       switchMap((page) => {
         const category = this.categoryInput.getValue()
         const params = new HttpParams()
+          .set("apiKey", this.apiKey)
           .set("country", this.country)
           .set("category", category)
           .set("pageSize", this.pageSize.toString())
