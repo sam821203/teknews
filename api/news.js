@@ -1,23 +1,26 @@
 // api/news.js
 const axios = require("axios")
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   try {
-    const { category = "general", page = 1 } = req.query
+    // 從請求中提取參數
+    const { country, category, pageSize, page } = req.query
 
-    // 從 Vercel environment 變數中獲取 API_KEY
-    const apiKey = process.env.API_KEY
-    const url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&country=us&category=${category}&pageSize=10&page=${page}`
-
-    // 向 NewsAPI 發送請求
-    const response = await axios.get(url, {
-      headers: { "User-Agent": "Mozilla/5.0" },
+    // 呼叫外部 API
+    const response = await axios.get("https://newsapi.org/v2/top-headlines", {
+      params: {
+        apiKey: process.env.API_KEY,
+        country,
+        category,
+        pageSize,
+        page,
+      },
     })
 
-    // 返回 NewsAPI 的回應數據
+    // 回傳 API 的結果
     res.status(200).json(response.data)
   } catch (error) {
-    console.error(error)
-    res.status(error.response?.status || 500).json({ error: "API request failed" })
+    console.error("Error fetching news:", error)
+    res.status(500).json({ error: "Internal Server Error" })
   }
 }

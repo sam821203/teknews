@@ -1,4 +1,4 @@
-import { HttpParams, HttpClient, HttpHeaders } from "@angular/common/http"
+import { HttpParams, HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { Observable, BehaviorSubject, Subject, of } from "rxjs"
 import { catchError, delay, map, retry, switchMap, tap } from "rxjs/operators"
@@ -44,11 +44,7 @@ export class NewsApiService {
           .set("category", category)
           .set("pageSize", this.pageSize.toString())
           .set("page", page.toString())
-        const headers = new HttpHeaders({
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-        })
-        return this.http.get<NewsApiResponse>(this.url, { params, headers }).pipe(
+        return this.http.get<NewsApiResponse>(this.url, { params }).pipe(
           retry({
             count: 5,
             delay: (error, index) => {
