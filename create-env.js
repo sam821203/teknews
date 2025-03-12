@@ -1,13 +1,19 @@
 const fs = require("fs")
-const path = "./src/environments"
+const path = require("path")
+const successColor = "\x1b[32m%s\x1b[0m"
+const checkSign = "\u{2705}"
+const dotenv = require("dotenv").config({ path: "src/.env" })
 
-if (!fs.existsSync(path)) {
-  fs.mkdirSync(path, { recursive: true })
-}
-
-const envConfig = `export const environment = {
-    API_KEY: "${process.env.API_KEY}"
+const envFile = `export const environment = {
+    API_KEY: '${process.env.API_KEY}',
 };
 `
-fs.writeFileSync("./src/environments/environment.dev.ts", envConfig)
-console.log("✅ environment.dev.ts created!")
+const targetPath = path.join(__dirname, "./src/environments/environment.dev.ts")
+fs.writeFile(targetPath, envFile, (err) => {
+  if (err) {
+    console.error(err)
+    throw err
+  } else {
+    console.log(successColor, `${checkSign} Successfully generated environment.dev.ts`)
+  }
+})
