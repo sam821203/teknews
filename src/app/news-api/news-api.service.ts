@@ -30,13 +30,16 @@ export class NewsApiService {
   private categoryInput: BehaviorSubject<string>
   pagesOutput: Observable<Article[]>
   numberOfPages: Subject<number>
+  loading: Subject<boolean>
 
   constructor(private http: HttpClient) {
     this.numberOfPages = new Subject()
+    this.loading = new Subject<boolean>()
     this.pagesInput = new BehaviorSubject<number>(1)
     this.categoryInput = new BehaviorSubject<string>("general")
 
     this.pagesOutput = this.pagesInput.pipe(
+      tap(() => this.loading.next(true)),
       switchMap((page) => {
         const category = this.categoryInput.getValue()
         const params = new HttpParams()
@@ -61,6 +64,7 @@ export class NewsApiService {
           })
         )
       }),
+      tap(() => this.loading.next(false)),
       tap((resp) => {
         const totalPages = Math.ceil(resp.totalResults / this.pageSize)
         this.numberOfPages.next(totalPages)

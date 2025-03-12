@@ -44,3 +44,7 @@
   </a>
 </div>
 <app-paginator [numberOfPages]="totalNumberOfPages" (pageChange)="fetchArticles($event, currentCategory)" />
+<!-- Loading overlay -->
+<div *ngIf="loading" class="loading-overlay">
+  <div class="spinner"></div>
+</div>
