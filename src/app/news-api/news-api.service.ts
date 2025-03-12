@@ -21,7 +21,7 @@ interface NewsApiResponse {
   providedIn: "root",
 })
 export class NewsApiService {
-  private url = "https://newsapi.org/v2/top-headlines"
+  private url = "/api/news"
   private pageSize = 10
   private apiKey = environment.API_KEY
   private country = "us"
@@ -40,7 +40,6 @@ export class NewsApiService {
       switchMap((page) => {
         const category = this.categoryInput.getValue()
         const params = new HttpParams()
-          .set("apiKey", this.apiKey)
           .set("country", this.country)
           .set("category", category)
           .set("pageSize", this.pageSize.toString())

@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/news",
+      "dest": "/api/news.js"
+    }
+  ]
+}
